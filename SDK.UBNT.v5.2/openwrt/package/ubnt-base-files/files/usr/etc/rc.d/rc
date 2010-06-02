@@ -1,0 +1,22 @@
+#!/bin/sh
+
+. /usr/etc/rc.d/rc.funcs
+
+if [ -z ${RC_CMD} ]; then
+	cmd=$1
+else
+	cmd=${RC_CMD}
+fi
+
+case "$cmd" in
+	start)
+		rc_start
+		;;
+	stop)
+		rc_stop
+		;;
+	*)
+		echo "Unrecognized option $cmd, assuming start"
+		rc_start
+		;;
+esac

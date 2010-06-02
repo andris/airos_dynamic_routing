@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title><? echo get_title($cfg, $page_title); ></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Pragma" content="no-cache">
+<link rel="shortcut icon" href="FULL_VERSION_LINK/favicon.ico" >
+<link href="FULL_VERSION_LINK/style.css" rel="stylesheet" type="text/css">
+<?
+if (intVal($info[2]) == 0)
+{
+	$info[2] = "-";
+}
+if (intVal($info[3]) == 0)
+{
+	$info[3] = "-";
+}
+if ($autoack == "enabled" && intVal($info[11]) == 0)
+{
+	$info[11] = get_current_ack();
+}
+>
+<script type="text/javascript" src="FULL_VERSION_LINK/js/jquery.js"></script>
+<script type="text/javascript" src="FULL_VERSION_LINK/js/jquery.utils.js"></script>
+</head>
+<body class="popup">
+<script type="text/javascript" language="javascript">
+//<!--
+var do_refresh = <? echo $sta_info_refresh; >;
+var refresh_url = "<?echo $PHP_SELF;>?ifname=<? echo $ifname;>"
+		+ "&sta_mac=<? echo $sta_mac;>"
+		+ "&mode=<? echo $mode;>";
+var kick_url = "stakick.cgi?staif=<? echo $ifname;>"
+		+ "&staid=<? echo $sta_mac;>";
+
+function handleError(xhr, textStatus, errorThrown) {
+	$('#kick').disable(0);
+        if (xhr && xhr.status != 200 && xhr.status != 0) {
+                window.location.reload();
+        }
+}
+function kickEnd(data, textStatus, xhr) {
+	$('#kick').disable(0);
+	refresh_info();
+}
+function kickStation() {
+	$('#kick').disable();
+	jQuery.ajax({
+		url: kick_url,
+		cache: false,
+		dataType: "json",
+		success: kickEnd,
+		error: handleError
+	});
+	return false;
+}
+
+function in_frame()
+{
+ 	return (typeof refreshContent == 'function');
+}
+
+function close_window()
+{
+	window.opener = self;
+	return self.close();
+}
+
+function refresh_info()
+{
+	if (in_frame())
+	{
+		refreshContent(refresh_url);
+	}
+	else
+	{
+		window.location.href = refresh_url;
+	}
+}
+
+function startup()
+{
+	if (in_frame())
+	{
+		return;
+	}
+
+	if (do_refresh)
+	{
+		setTimeout("refresh_info()", 5000);
+	}
+	else if (window.opener)
+	{
+		jQuery("#btn").show();
+	}
+}
+jQuery(document).ready(startup);
+//-->
+</script>
+
+<br>
+<form action="<?echo $PHP_SELF;>" method="GET">
+<table cellspacing="0" cellpadding="0" align="center">
+<tr><td>
+<table cellspacing="0" cellpadding="0" class="listhead sortable" id="stainfo">
+<? if ($sta_info_refresh) { >
+<tr><th colspan="2"><? echo $heading;></th></tr>
+<tr><td valign="top">
+<table>
+<tr><td class="f"><? echo dict_translate("Device Name:"); ></td>
+	<td><? echo $info[12];></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("Connection Time:"); ></td>
+	<td><? echo secsToCountdown($info[7]);></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("Signal Strength:"); ></td>
+	<td><? echo intVal($info[4]); > dBm</td>
+</tr>
+<tr><td class="f"><? echo dict_translate("Noise Floor:"); ></td>
+	<td><? $nf = intVal($info[9]); echo $nf;> dBm</td>
+</tr>
+<? if ($autoack == "enabled") { >
+<tr><td class="f"><? echo dict_translate("ACK/Distance:"); ></td>
+	<td><? echo ack_to_distance(IntVal($info[11])); > </td>
+</tr>
+<? } >
+<tr><td class="f"><? echo dict_translate("CCQ:"); ></td>
+	<td><? echo 1 * $info[5]/10;>%</td>
+</tr>
+<? if (($polling == "enabled") && ($wmode == "ap" || $wmode == "apwds")) { >
+<tr><td class="f"><? echo dict_translate("AirMax Priority:"); ></td>
+	<td><? echo decode_airmax_priority($info[14]);></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("AirMax Quality:"); ></td>
+	<td><? echo $info[15];>%</td>
+</tr>
+<tr><td class="f"><? echo dict_translate("AirMax Capacity:"); ></td>
+	<td><? echo $info[16];>%</td>
+</tr>
+<? } >
+<tr><td class="f"><? echo dict_translate("Last IP:"); ></td>
+	<td><? $lastip = $info[13]; if ($lastip == "0.0.0.0") { echo dict_translate("unknown"); } else {?><a href="http://<?echo $lastip;>/" target="_blank"><?echo $lastip;></a><? } ?></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("TX/RX Rate:"); ></td>
+	<td><? echo formatRate($info[2]) + " / " + formatRate($info[3]);></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("TX/RX Packets:"); ></td>
+	<td><? echo $stats[2] + " / " + $stats[0];></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("TX/RX Packet Rate, pps:"); ></td>
+	<td><? echo "" + $stats[5] + " / " + $stats[4];></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("Bytes Transmitted:"); ></td>
+	<td><? echo $stats[3];
+        	$bytes = DoubleVal($stats[3]);
+        	if ($bytes > (1024 * 1024 * 1024)) {
+	        	echo " (%.2f GBytes)" ($bytes / (1024 * 1024 * 1024));
+                } else {
+	        	if ($bytes > (1024 * 1024)) {
+		        	echo " (%.2f MBytes)" ($bytes / (1024 * 1024));
+                	} else {
+                		if ($bytes > 1024) {
+		        		echo " (%.2f kBytes)" ($bytes / 1024);
+                		}
+                	}
+                }
+        ></td>
+</tr>
+<tr><td class="f"><? echo dict_translate("Bytes Received:"); ></td>
+	<td><? echo $stats[1];
+        	$bytes = DoubleVal($stats[1]);
+        	if ($bytes > (1024 * 1024 * 1024)) {
+	        	echo " (%.2f GBytes)" ($bytes / (1024 * 1024 * 1024));
+                } else {
+	        	if ($bytes > (1024 * 1024)) {
+		        	echo " (%.2f MBytes)" ($bytes / (1024 * 1024));
+                	} else {
+                		if ($bytes > 1024) {
+		        		echo " (%.2f kBytes)" ($bytes / 1024);
+                		}
+                	}
+                }
+        ></td>
+</tr>
+</table>
+</td>
+<td valign="top">
+<table>
+<tr><td class="f"><? echo dict_translate("Negotiated Rate"); ></td>
+<td class="f"><? echo dict_translate("Last Signal"); >, dBm</td>
+</tr>
+<? $j = 0;
+while ($j < $rate_count) { >
+<tr><td align='center'><? echo $rates[$j];></td>
+<td align='center'><? if ($signals[$j] != 0 && $signals[$j] != -96) { echo $signals[$j]; } else { echo "<font color='grey'>"+dict_translate("N/A")+"</font>";}></td>
+</tr>
+<?  $j++; }
+} else {
+echo "<tr><td>"+$no_sta_msg+"</td></tr>";
+}
+>
+</table>
+</td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" class="change">
+<? if ($sta_info_refresh) { >
+<? if ($wds_node == 0) { >
+<input type="button" id="kick" onClick="return kickStation();" value="<? if ($mode == "ap") { $str = "Reconnect"; } else { $str = "Kick"; }; echo dict_translate($str); >">
+<? } >
+<input type="button" id="btn" onClick="refresh_info();" value="<? echo dict_translate("Refresh"); >">
+<? } else {>
+<input type="button" id="btn" style="display: none;" onClick="close_window();" value="<? echo dict_translate("Close"); >">
+<? } >
+</td>
+</tr>
+</table>
+</td>
+</tr></table>
+</form>
+</body>
+</html>
