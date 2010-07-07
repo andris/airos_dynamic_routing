@@ -1783,6 +1783,16 @@ Function cfg_get_igmp_upstream $cfg, $iface (
         }
 );
 
+Function cfg_get_quagga_status $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.status", $quagga_status);
+	 return $quagga;
+);
+
+Function cfg_get_quagga_ripd_status $cfg, $quagga_ripd_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.status", $quagga_ripd_status);
+	 return $quagga;
+);
+
 Function set_nat $cfg, $iface, $nat (
 	if ($nat == "on" || $nat == "enabled")
 	{

@@ -201,6 +201,21 @@ jQuery(document).ready(initRouter);
 	  	value="<? echo dict_translate("Configure..."); >"
 	  	onClick="return openPage('port_forward.cgi',580,550);" /></td>
       </tr>
+      	<!-- Quagga routing assignment -->
+	<tr><td colspan="4" class="tdpad">&nbsp;</td></tr>
+	<tr><th colspan="4"><? echo dict_translate("Quagga Routing Settings"); ></th></tr>
+	<tr><td colspan="4" class="tdpad">&nbsp;</td></tr>
+	<tr><td class="f"><? echo dict_translate("Quagga Routing:"); ></td>
+      <td colspan="3"><input type="checkbox" name="quagga_status" id="quagga_status" <? if ($quagga_status=="enabled") { echo "checked"; }> onClick="statusClicked(this,new Array('quagga_options'));"></td>
+      </tr>
+	<tr><td class="f"><? echo dict_translate("Routing protocol:"); ></td>
+      <td colspan="3">
+        <select name="quagga_options" id="quagga_options" style="width:145px">
+        <option value="RIP" <? if ($quagga_ripd_status=="enabled") { echo "selected"; }> ><? echo dict_translate("RIP");></option>
+	</select>
+      </td>
+        </tr>
+
 	<!-- Multicast routing assignment -->
 	<tr><td colspan="4" class="tdpad">&nbsp;</td></tr>
 	<tr><th colspan="4"><? echo dict_translate("Multicast Routing Settings"); ></th></tr>

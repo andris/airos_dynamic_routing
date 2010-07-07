@@ -58,6 +58,18 @@ if ($nat_status=="on" || $nat_status=="enabled" ||
 else {
 	cfg_set($cfg, "iptables.status", "disabled");
 }
+if ($quagga_status=="on" || $quagga_status="enabled")
+{
+	cfg_set($cfg, "quagga.status", "enabled");
+	if ( $quagga_ripd_status == "enabled" )
+	{
+		cfg_set($cfg, "quagga.ripd.status", "enabled");
+	}
+	else
+	{
+		cfg_set($cfg, "quagga.ripd.status", "disabled");
+	}
+}
 if ($igmp_status=="on" || $igmp_status=="enabled")
 {
 	cfg_set($cfg, "igmpproxy.status", "enabled");

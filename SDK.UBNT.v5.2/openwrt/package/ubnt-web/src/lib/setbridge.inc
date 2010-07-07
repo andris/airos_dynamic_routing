@@ -24,6 +24,8 @@ set_firewall($cfg, $firewall_status, "bridge");
 cfg_set($cfg, "netmode", $netmode);
 cfg_set($cfg, "bridge.status", "enabled");
 cfg_set($cfg, "iptables.status", "disabled");
+cfg_set($cfg, "quagga.status", "disabled");
+cfg_set($cfg, "quagga.ripd.status", "disabled");
 cfg_set($cfg, "igmpproxy.status", "disabled");
 cfg_set($cfg, "dnsmasq.status", "disabled");
 
