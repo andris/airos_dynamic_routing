@@ -59,6 +59,11 @@ if ($quagga_status=="on" || $quagga_status="enabled")
 		cfg_set($cfg, "quagga.ripd.status", "disabled");
 	}
 }
+else
+{
+	cfg_set($cfg, "quagga.status", "disabled");
+	cfg_set($cfg, "quagga.ripd.status", "disabled");
+}
 if ($igmp_status=="on" || $igmp_status=="enabled")
 {	
 	cfg_set($cfg, "igmpproxy.status", "enabled");
