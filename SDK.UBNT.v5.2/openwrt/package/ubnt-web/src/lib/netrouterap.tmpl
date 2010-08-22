@@ -211,7 +211,7 @@ jQuery(document).ready(initRouter);
 	<tr><td class="f"><? echo dict_translate("Routing protocol:"); ></td>
       <td colspan="3">
         <select name="quagga_options" id="quagga_options" style="width:145px">
-        <option value="RIP" <? if ($quagga_ripd_status=="enabled") { > selected <? } >><? echo dict_translate("RIP");></option>
+        <option value="RIP" <? if ($quagga_options == "RIP") { > selected <? } >><? echo dict_translate("RIP");></option>
 	</select>
       </td>
         </tr>

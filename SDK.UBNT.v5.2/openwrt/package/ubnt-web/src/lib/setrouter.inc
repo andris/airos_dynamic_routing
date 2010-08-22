@@ -61,7 +61,7 @@ else {
 if ($quagga_status=="on" || $quagga_status=="enabled")
 {
 	cfg_set($cfg, "quagga.status", "enabled");
-	if ( $quagga_ripd_status == "enabled" )
+	if ( $quagga_options == "RIP" )
 	{
 		cfg_set($cfg, "quagga.ripd.status", "enabled");
 	}
