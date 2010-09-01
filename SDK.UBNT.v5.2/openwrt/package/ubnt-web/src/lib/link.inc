@@ -1788,8 +1788,42 @@ Function cfg_get_quagga_status $cfg, $quagga_status (
 	 return $quagga;
 );
 
-Function cfg_get_quagga_ripd_status $cfg, $quagga_ripd_status (
-	 $quagga = cfg_get_def($cfg, "quagga.ripd.status", $quagga_ripd_status);
+Function cfg_get_quagga_options $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.status", $quagga_status);
+	 if ( $quagga == "enabled" )
+	 {
+		$quagga = "RIP";
+	 }
+	 return $quagga;
+);
+
+Function cfg_get_quagga_rip_interface_lan $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.interface.lan", $quagga_status);
+	 return $quagga;
+);
+
+Function cfg_get_quagga_rip_interface_wlan $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.interface.wlan", $quagga_status);
+	 return $quagga;
+);
+
+Function cfg_get_quagga_rip_redistkernel $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.redistkernel", $quagga_status);
+	 return $quagga;
+);
+
+Function cfg_get_quagga_rip_rediststatic $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.rediststatic", $quagga_status);
+	 return $quagga;
+);
+
+Function cfg_get_quagga_rip_redistconnected $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.redistconnected", $quagga_status);
+	 return $quagga;
+);
+
+Function cfg_get_quagga_rip_defaultinfo $cfg, $quagga_status (
+	 $quagga = cfg_get_def($cfg, "quagga.ripd.defaultinfo", $quagga_status);
 	 return $quagga;
 );
 

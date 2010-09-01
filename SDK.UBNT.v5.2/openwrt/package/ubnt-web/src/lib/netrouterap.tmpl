@@ -9,6 +9,7 @@ function initRouter() {
 	dmzStatusClicked();
         natStatusClicked();
 	hwaddrStatusClicked();
+	quaggaOptionClicked();
 	var quagga = document.getElementById("quagga_status");
 	statusClicked(quagga,new Array('quagga_options'));
 	var igmp = document.getElementById("igmp_status");
@@ -210,10 +211,31 @@ jQuery(document).ready(initRouter);
       </tr>
 	<tr><td class="f"><? echo dict_translate("Routing protocol:"); ></td>
       <td colspan="3">
-        <select name="quagga_options" id="quagga_options" style="width:145px">
-        <option value="RIP" <? if ($quagga_options == "RIP") { > selected <? } >><? echo dict_translate("RIP");></option>
+        <select name="quagga_options" id="quagga_options" style="width:145px" onClick="statusClicked(this,new Array('quagga_rip'));quaggaOptionClicked();">
+        <option value="RIP" <? if ($quagga_options == "RIP") { > selected <? } > ><? echo dict_translate("RIP");></option>
 	</select>
       </td>
+	<tr class="quagga_rip">
+	<td class="f"><? echo dict_translate("RIP Broadcast Interface:"); ></td>
+        <td colspan="3">
+	 <input type="checkbox" name="quagga_rip_interface_lan" id="quagga_rip_interface_lan" <? if ($quagga_rip_interface_lan=="enabled") { echo "checked"; }> >LAN &nbsp;
+	 <input type="checkbox" name="quagga_rip_interface_wlan" id="quagga_rip_interface_wlan" <? if ($quagga_rip_interface_wlan=="enabled") { echo "checked"; }> >WLAN &nbsp;
+	</td>
+	</tr>
+	<tr class="quagga_rip">
+	<td class="f"><? echo dict_translate("RIP Redistribute:"); ></td>
+        <td colspan="3">
+	 <input type="checkbox" name="quagga_rip_redistkernel" id="quagga_rip_redistkernel" <? if ($quagga_rip_redistkernel=="enabled") { echo "checked"; }> >kernel &nbsp;
+	 <input type="checkbox" name="quagga_rip_rediststatic" id="quagga_rip_rediststatic" <? if ($quagga_rip_rediststatic=="enabled") { echo "checked"; }> >static &nbsp;
+	 <input type="checkbox" name="quagga_rip_redistconnected" id="quagga_rip_redistconnected" <? if ($quagga_rip_redistconnected=="enabled") { echo "checked"; }> >static &nbsp;
+	</td>
+	</tr>
+	<tr class="quagga_rip">
+	<td class="f"><? echo dict_translate("RIP Default-information originate:"); ></td>
+        <td colspan="3">
+	 <input type="checkbox" name="quagga_rip_defaultinfo" id="quagga_rip_defaultinfo" <? if ($quagga_rip_defaultinfo=="enabled") { echo "checked"; }> >
+	</td>
+        </tr>
         </tr>
 
 	<!-- Multicast routing assignment -->
