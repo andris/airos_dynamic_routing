@@ -139,7 +139,24 @@ if [ -e /sbin/ubntconf ]; then
 	/sbin/ubntconf
 fi
 
+cat > /etc/sysinit/quagga.conf << EOF
+
+plugin_start() {
+	/bin/quagga start
+        true
+}
+plugin_stop() {
+	/bin/quagga stop
+	true
+}
+EOF
+
+echo "quagga" >> /etc/startup.list
+
 echo "...running /sbin/init"
 exec /sbin/init
 
 echo "INTERNAL ERROR!!! Cannot run /sbin/init."
+
+# Start quagga
+/bin/quagga start

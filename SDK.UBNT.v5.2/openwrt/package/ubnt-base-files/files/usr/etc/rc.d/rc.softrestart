@@ -61,6 +61,21 @@ if [ -e /sbin/ubntconf ]; then
 	/sbin/ubntconf
 fi
 
+
+cat > /etc/sysinit/quagga.conf << EOF
+
+plugin_start() {
+	/bin/quagga start
+        true
+}
+plugin_stop() {
+	/bin/quagga stop
+	true
+}
+EOF
+
+echo "quagga" >> /etc/startup.list
+
 TEST_LOCK_FILE=/var/run/testmode
 if [ -e $TEST_LOCK_FILE ]; then
 	/usr/bin/chmod 644 $TEST_LOCK_FILE
