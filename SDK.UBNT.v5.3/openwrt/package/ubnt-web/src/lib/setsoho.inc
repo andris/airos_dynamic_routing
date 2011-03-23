@@ -56,6 +56,99 @@ if ($nat_status=="on" || $nat_status=="enabled" ||
 else {
 	cfg_set($cfg, "iptables.status", "disabled");
 }
+if ($quagga_status=="on" || $quagga_status=="enabled")
+{
+	cfg_set($cfg, "quagga.status", "enabled");
+	if ( $quagga_options == "RIP" )
+	{
+		cfg_set($cfg, "quagga.ripd.status", "enabled");
+		if ( $quagga_rip_interface_lan=="on" || $quagga_rip_interface_lan=="enabled" )
+		{
+			cfg_set($cfg, "quagga.ripd.interface.lan", "enabled");
+		}
+		else
+		{
+			cfg_set($cfg, "quagga.ripd.interface.lan", "disabled");
+		}
+
+		if ( $quagga_rip_interface_wlan=="on" || $quagga_rip_interface_wlan=="enabled" )
+		{
+			cfg_set($cfg, "quagga.ripd.interface.wlan", "enabled");
+		}
+		else
+		{
+			cfg_set($cfg, "quagga.ripd.interface.wlan", "disabled");
+		}
+		
+		if ( $quagga_rip_splithorizon=="on" || $quagga_rip_splithorizon=="enabled" )
+		{
+			cfg_set($cfg, "quagga.ripd.splithorizon", "enabled");
+		}
+		else
+		{
+			cfg_set($cfg, "quagga.ripd.splithorizon", "disabled");
+		}
+
+		if ( $quagga_rip_redistkernel=="on" || $quagga_rip_redistkernel=="enabled" )
+		{
+			cfg_set($cfg, "quagga.ripd.redistkernel", "enabled");
+		}
+		else
+		{
+			cfg_set($cfg, "quagga.ripd.redistkernel", "disabled");
+		}
+
+		if ( $quagga_rip_rediststatic=="on" || $quagga_rip_rediststatic=="enabled" )
+		{
+			cfg_set($cfg, "quagga.ripd.rediststatic", "enabled");
+		}
+		else
+		{
+			cfg_set($cfg, "quagga.ripd.rediststatic", "disabled");
+		}
+
+		if ( $quagga_rip_redistconnected=="on" || $quagga_rip_redistconnected=="enabled" )
+		{
+			cfg_set($cfg, "quagga.ripd.redistconnected", "enabled");
+		}
+		else
+		{
+			cfg_set($cfg, "quagga.ripd.redistconnected", "disabled");
+		}
+
+		if ( $quagga_rip_defaultinfo=="on" || $quagga_rip_defaultinfo=="enabled" )
+		{
+			cfg_set($cfg, "quagga.ripd.defaultinfo", "enabled");
+		}
+		else
+		{
+			cfg_set($cfg, "quagga.ripd.defaultinfo", "disabled");
+		}
+	}
+	else
+	{
+		cfg_set($cfg, "quagga.ripd.status", "disabled");
+		cfg_set($cfg, "quagga.ripd.interface.lan", "disabled");
+		cfg_set($cfg, "quagga.ripd.interface.wlan", "disabled");
+		cfg_set($cfg, "quagga.ripd.splithorizon", "disabled");
+		cfg_set($cfg, "quagga.ripd.redistkernel", "disabled");
+		cfg_set($cfg, "quagga.ripd.rediststatic", "disabled");
+		cfg_set($cfg, "quagga.ripd.redistconnected", "disabled");
+		cfg_set($cfg, "quagga.ripd.defaultinfo", "disabled");
+	}
+}
+else
+{
+	cfg_set($cfg, "quagga.status", "disabled");
+	cfg_set($cfg, "quagga.ripd.status", "disabled");
+	cfg_set($cfg, "quagga.ripd.interface.lan", "disabled");
+	cfg_set($cfg, "quagga.ripd.interface.wlan", "disabled");
+	cfg_set($cfg, "quagga.ripd.splithorizon", "disabled");
+	cfg_set($cfg, "quagga.ripd.redistkernel", "disabled");
+	cfg_set($cfg, "quagga.ripd.rediststatic", "disabled");
+	cfg_set($cfg, "quagga.ripd.redistconnected", "disabled");
+	cfg_set($cfg, "quagga.ripd.defaultinfo", "disabled");
+}
 if ($igmp_status=="on" || $igmp_status=="enabled")
 {	
 	cfg_set($cfg, "igmpproxy.status", "enabled");

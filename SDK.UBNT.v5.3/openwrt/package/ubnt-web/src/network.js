@@ -168,3 +168,13 @@ function validateHwAddr(id,name,value) {
 	}
 	return true;
 }
+function quaggaOptionClicked() {
+    if ( $('#quagga_options').val() == "RIP")
+    {
+	$('.quagga_rip').toggle(true);
+    }
+    else
+    {
+	$('.quagga_rip').toggle(false);
+    }
+}
